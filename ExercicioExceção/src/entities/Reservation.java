@@ -46,13 +46,21 @@ public class Reservation {
 		
 	}
 	
-	public void updateDates(Date checkIn, Date checkOut) { // metódo para trocar as datas
+	public String updateDates(Date checkIn, Date checkOut) { // metódo para trocar as datas
 		
+		Date now = new Date();
+		if (checkIn.before(now)  || checkout.before(now)) {
+		return "Error em reservation: Reservation dates for update must be future";
+	}
+		if (!checkout.after(checkIn) ){
+			return "Error in reservation: Check-out date must be after check-in date"; 
+		}
+		//se o programa der erro, vai parar a execução e mostrar uma dessas mensagens, se ele respeitar as condições, vai para a lógica abaixo:
 		
 		
 		this.checkIn = checkIn;
 		this.checkout = checkOut;
-		
+		return null; // retornar nullo se o metódo der certo
 	}
 	
 	@Override

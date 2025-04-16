@@ -26,23 +26,14 @@ public class MuitoRuim {
 			Reservation reservation = new Reservation(roomNumber, checkin, checkout);
 			System.out.println("Reservation" + reservation);
 			
-			
-			
-			System.out.println("Enter Check-In Date Update");
-			checkin = sdf.parse(sc.next());
-			System.out.println("Enter Check-out Date Update");
-			checkout = sdf.parse(sc.next());
-			
-			Date now = new Date();
-			if (checkin.before(now)  || checkout.before(now)) {
-			System.out.println("Error em reservation: Reservation dates for update must be future");
-		}
-			else if (!checkout.after(checkin) ){
-				System.out.println("Error in reservation: Check-out date must be after check-in date");
+			String error = reservation.updateDates(checkin, checkout); // cria uma variavel error, que vai recber o metódo updateDates.
+			if (error != null) {	// se o erro for diferente de nullo, ele vai mostrar a mensagem do erro em string que nos configuramos no Reservation
+				System.out.println("Error in reservation: " + error); 
 			}
 			else {
-				reservation.updateDates(checkin, checkout);
-				System.out.println("Reservation: "+ reservation);
+				System.out.println("Reservation" + reservation); // se a condição for falsa, ele retorna realizando o metódo de dar update nas classe.
+			}
+			
 			}
 	
 		sc.close();
@@ -50,4 +41,4 @@ public class MuitoRuim {
 	}
 
 }
-}
+
