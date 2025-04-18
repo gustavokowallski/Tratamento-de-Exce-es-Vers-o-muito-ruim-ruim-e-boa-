@@ -2,6 +2,9 @@ package entities;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import models.exceptions.DomainExceptions;
+
 import java.text.SimpleDateFormat;
 public class Reservation {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -13,7 +16,10 @@ public class Reservation {
 		
 	}
 
-	public Reservation(Integer number, Date checkIn, Date checkout) {
+	public Reservation(Integer number, Date checkIn, Date checkout) throws DomainExceptions {
+		if (!checkout.after(checkIn) ){
+			throw new DomainExceptions  ("Error in reservation: Check-out date must be after check-in date"); 
+		}
 
 		this.number = number;
 		this.checkIn = checkIn;
@@ -46,21 +52,21 @@ public class Reservation {
 		
 	}
 	
-	public String updateDates(Date checkIn, Date checkOut) { // metódo para trocar as datas
+	public void updateDates(Date checkIn, Date checkOut) throws DomainExceptions { 
 		
 		Date now = new Date();
 		if (checkIn.before(now)  || checkout.before(now)) {
-		return "Error em reservation: Reservation dates for update must be future";
+			throw new DomainExceptions ("Error em reservation: Reservation dates for update must be future");
 	}
 		if (!checkout.after(checkIn) ){
-			return "Error in reservation: Check-out date must be after check-in date"; 
+			throw new DomainExceptions  ("Error in reservation: Check-out date must be after check-in date"); 
 		}
-		//se o programa der erro, vai parar a execução e mostrar uma dessas mensagens, se ele respeitar as condições, vai para a lógica abaixo:
+	
 		
 		
 		this.checkIn = checkIn;
 		this.checkout = checkOut;
-		return null; // retornar nullo se o metódo der certo
+		
 	}
 	
 	@Override
